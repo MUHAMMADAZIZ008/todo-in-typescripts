@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/main.css">
+    <title>Todos</title>
+</head>
+<body>
+    <section class="todos">
+        <div class="container">
+            <form class="todos__form">
+                <input class="todos__input" type="text" placeholder="Add a new task" name="title">
+                <!-- <textarea class="todos__input" placeholder="Enter description for todos" name="description"></textarea> -->
+                <button class="todo__form_btn" type="submit"><img class="todos__form_icon" src="./images/plus_icon.png" alt="icon"></button>
+            </form>
+            <div class="todos__box">
+                <div class="todos__list_box">
+                    <h2 class="todos__list_info">Tasks to do - 4</h2>
+                    <ul class="todos__list">
+                        <li class="todos__item">
+                            <p class="todos__list_text">something</p>
+                            <div class="todos__list_btn_box">
+                                <button class="todos__list_edit_btn"><img class="todos__btn_icon" src="./images/icons8-edit-24.png" alt="icon"></button>
+                                <button class="todos__list_next_btn"><img class="todos__btn_icon" src="./images/iconsnext.png" alt="icon"></button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="todos__list_box">
+                    <h2 class="todos__list_info">In Progress - 4</h2>
+                    <ul class="todos__list"></ul>
+                </div>
+                
+                <div class="todos__list_box">
+                    <h2 class="todos__list_info">Done - 1</h2>
+                    <ul class="todos__list"></ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="./js/main.js"></script>
+</body>
+</html>
