@@ -31,14 +31,11 @@ export class AppController {
   }
   @Get(':id')
   async getById(@Param('id') id: string) {
-    console.log();
     return this.appService.getByIfTodoService(id);
   }
 
   @Put(':id')
   async updateTodo(@Param('id') id: string, @Body() todo: any) {
-    console.log(todo);
-
     return this.appService.updateTodoService(id, todo);
   }
 

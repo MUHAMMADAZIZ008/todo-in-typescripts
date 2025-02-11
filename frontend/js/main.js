@@ -1,3 +1,5 @@
+import { getStorage, removeStorage, setStorage } from "./localstorage.js"
+
 const todosForm = document.querySelector('.todos__form')
 const todosInput = document.querySelector('.todos__input')
 
@@ -23,7 +25,7 @@ const editBtn = document.querySelector('.edit__form--btn')
 // todosItem.classList.add('todos__item')
 
 //get all todos
-async function getAllTodos(findBy) {    
+async function getAllTodos(findBy) {
     let allTodos;
     await fetch(`http://localhost:3000/todos/find-by?findBy=${findBy}`, {
         method: 'GET',
@@ -33,7 +35,7 @@ async function getAllTodos(findBy) {
     })
         .then((res) => res.json())
         .then((res) => allTodos = res)
-    
+
     const todos = [];
     for (let i = allTodos.length - 1; i >= 0; i--) {
         todos.push(allTodos[i])
@@ -56,13 +58,19 @@ async function getOneTodos(id) {
 }
 // update one
 async function updateOne(id, options) {
-    await fetch(`http://localhost:3000/todos/${id}`, {
+    const data = await fetch(`http://localhost:3000/todos/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(options)
     })
+    const todo = await data.json()
+    const storageData = await getStorage('todos')
+    const todosIndex = storageData.findIndex((value) => value._id === id)
+    console.log(todosIndex);
+    storageData.splice(todosIndex, 1, todo)
+    await setStorage('todos', storageData)
 }
 //delete one
 
@@ -73,6 +81,9 @@ async function deleteOne(id) {
             'Content-Type': 'application/json'
         }
     })
+    const storageData = await getStorage('todos')
+    const newData = storageData.filter((item) => item._id != id)
+    await setStorage('todos', newData)
 }
 
 // generator
@@ -127,17 +138,17 @@ async function doneGenerator() {
 
 async function editTodo(todo, whichUpdate) {
     const newTaskTitle = {}
-    editForm.addEventListener('submit', async (e) =>{
+    editForm.addEventListener('submit', async (e) => {
         e.preventDefault()
         newTaskTitle.title = editInput.value
         await updateOne(todo._id, newTaskTitle)
-        if(whichUpdate === 'todo') {
+        if (whichUpdate === 'todo') {
             await todosListGenerator()
         } else if (whichUpdate === 'progress') {
             await inProgressGenerator()
         }
     })
-    
+
 }
 
 //events
@@ -159,45 +170,55 @@ todosForm.addEventListener('submit', async (e) => {
         .then((res) => newTodo = res)
     todosInput.value = ''
     await todosListGenerator()
+    const storageData = await getStorage('todos')
+    if (!storageData) {
+        setStorage('todos', [newTodo])
+    } else {
+        const isBeen = storageData.filter((item) => item._id === newTodo._id)
+        if (isBeen.length === 0) {
+            setStorage('todos', [...storageData, newTodo])
+        }
+
+    }
 })
 
 //next to and edit
 todosList.addEventListener('click', async (e) => {
-    const todo = await getOneTodos(e.target.id)    
+    const todo = await getOneTodos(e.target.id)
     if (e.target.className === 'todos__next_icon' && todo.status === 'todo') {
         await updateOne(todo._id, { status: 'inProgress' })
         await todosListGenerator()
         await inProgressGenerator()
     }
-    if(e.target.className === 'todos__edit_icon') {
+    if (e.target.className === 'todos__edit_icon') {
         editInput.value = todo.title
         editSection.classList.add('show__edit_section')
-        editBtn.addEventListener('click', async (e) =>{            
+        editBtn.addEventListener('click', async (e) => {
             await editTodo(todo, 'todo')
             editSection.classList.remove('show__edit_section')
         })
     }
 })
-inProgressList.addEventListener('click', async (e) =>{
+inProgressList.addEventListener('click', async (e) => {
     const todo = await getOneTodos(e.target.id)
-    
+
     if (e.target.className === 'todos__next_icon' && todo.status === 'inProgress') {
         await updateOne(todo._id, { status: 'done' })
         await inProgressGenerator()
         await doneGenerator()
     }
 
-    if(e.target.className === 'todos__edit_icon') {
+    if (e.target.className === 'todos__edit_icon') {
         editInput.value = todo.title
         editSection.classList.add('show__edit_section')
-        editBtn.addEventListener('click', async (e) =>{            
+        editBtn.addEventListener('click', async (e) => {
             await editTodo(todo, 'progress')
             editSection.classList.remove('show__edit_section')
         })
     }
 })
 doneList.addEventListener('click', async (e) => {
-    const todo = await getOneTodos(e.target.id)  
+    const todo = await getOneTodos(e.target.id)
     if (e.target.className === 'todos__delete_icon' && todo.status === 'done') {
         await deleteOne(todo._id)
         await doneGenerator()
@@ -207,7 +228,7 @@ editCloseBtn.addEventListener('click', (e) => {
     editSection.classList.remove('show__edit_section')
 })
 editSection.addEventListener('click', (e) => {
-    if(e.target.classList.contains('edit__section')) {
+    if (e.target.classList.contains('edit__section')) {
         editSection.classList.remove('show__edit_section')
     }
 })
