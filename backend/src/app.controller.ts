@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Todo } from './todo.schema';
@@ -23,13 +24,21 @@ export class AppController {
     return this.appService.getAllTodoService();
   }
 
+  @Get('find-by')
+  async findBy(@Query() query: any) {
+    const findBy = query.findBy;
+    return this.appService.findBy(findBy);
+  }
   @Get(':id')
   async getById(@Param('id') id: string) {
+    console.log();
     return this.appService.getByIfTodoService(id);
   }
 
   @Put(':id')
-  async updateTodo(@Param('id') id: string, @Body() todo: Todo) {
+  async updateTodo(@Param('id') id: string, @Body() todo: any) {
+    console.log(todo);
+
     return this.appService.updateTodoService(id, todo);
   }
 

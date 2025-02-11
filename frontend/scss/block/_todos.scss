@@ -69,13 +69,17 @@
     align-items: center;
     gap: 15px;
 }
-.todos__list_next_btn, .todos__list_edit_btn {
+.todos__list_next_btn,
+.todos__list_edit_btn,
+.todos__list_delete_btn {
     width: 25px;
     height: 25px;
     background-color: transparent;
     border: none;
 }
-.todos__btn_icon {
+.todos__edit_icon, 
+.todos__next_icon,
+.todos__delete_icon{
     width: 100%;
     height: auto;
 }

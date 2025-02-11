@@ -141,14 +141,18 @@ button {
   gap: 15px;
 }
 
-.todos__list_next_btn, .todos__list_edit_btn {
+.todos__list_next_btn,
+.todos__list_edit_btn,
+.todos__list_delete_btn {
   width: 25px;
   height: 25px;
   background-color: transparent;
   border: none;
 }
 
-.todos__btn_icon {
+.todos__edit_icon,
+.todos__next_icon,
+.todos__delete_icon {
   width: 100%;
   height: auto;
 }
@@ -157,4 +161,84 @@ button {
   color: #fff;
   font-size: 20px;
   font-weight: 600;
+}
+
+.edit__section {
+  position: fixed;
+  z-index: 500;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.edit__section.show__edit_section {
+  opacity: 1;
+  visibility: visible;
+}
+
+.edit__box {
+  border-radius: 15px;
+  position: relative;
+  width: 550px;
+  background-color: #fff;
+  padding: 50px 40px;
+}
+
+.edit__btn--x {
+  top: 20px;
+  right: 20px;
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+}
+.edit__btn--x img {
+  width: 100%;
+}
+
+.edit__box--title {
+  font-size: 35px;
+  margin-bottom: 20px;
+}
+
+.edit__form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 25px;
+}
+
+.edit__form--input {
+  padding: 15px 10px;
+  font-size: 20px;
+  border-radius: 6px;
+}
+
+.edit__form--btn {
+  padding: 10px;
+  background-color: #000;
+  color: #fff;
+  font-size: 20px;
+  border: navajowhite;
+  border-radius: 6px;
+  font-weight: 700;
 }/*# sourceMappingURL=main.css.map */

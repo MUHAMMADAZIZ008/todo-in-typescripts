@@ -16,6 +16,10 @@ export class AppService {
     return this.todoModel.find().exec();
   }
 
+  async findBy(findBy: string) {
+    return this.todoModel.find({ status: findBy });
+  }
+
   async getByIfTodoService(id: string): Promise<Todo> {
     return this.todoModel.findById(id).exec();
   }
